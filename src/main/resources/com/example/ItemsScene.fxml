@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="269.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ItemsSceneController">
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="273.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+      <children>
+            <Button fx:id="addProductButton" layoutX="102.0" layoutY="240.0" mnemonicParsing="false" text="Add new item" />
+            <TableView fx:id="itemsTable" layoutX="320.0" layoutY="31.0" prefHeight="201.0" prefWidth="320.0">
+              <columns>
+                <TableColumn prefWidth="54.4000244140625" text="Item Id" />
+                <TableColumn prefWidth="86.39996337890625" text="Item name" />
+                  <TableColumn prefWidth="96.800048828125" text="Item quantity" />
+                  <TableColumn text="Item owner" />
+              </columns>
+            </TableView>
+            <Label alignment="CENTER" layoutX="319.0" layoutY="-2.0" prefHeight="34.0" prefWidth="320.0" text="Items info">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Separator layoutX="316.0" layoutY="-51.0" orientation="VERTICAL" prefHeight="322.0" prefWidth="10.0" />
+            <Label layoutX="26.0" layoutY="80.0" prefHeight="34.0" prefWidth="114.0" text="Item name:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="-4.0" layoutY="30.0" prefHeight="34.0" prefWidth="320.0" text="Add new item">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="125.0" prefHeight="34.0" prefWidth="114.0" text="Item quantity:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="newItemName" layoutX="144.0" layoutY="84.0" />
+            <TextField fx:id="newItemQty" layoutX="144.0" layoutY="129.0" />
+            <Button fx:id="modifyItemButton" layoutX="370.0" layoutY="240.0" mnemonicParsing="false" text="Modify item" />
+            <Separator layoutX="-4.0" layoutY="30.0" prefHeight="3.0" prefWidth="640.0" />
+            <Label layoutX="26.0" layoutY="169.0" prefHeight="34.0" prefWidth="114.0" text="Item price:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField fx:id="newItemPrice" layoutX="144.0" layoutY="173.0" />
+            <Button fx:id="logOutButton" layoutX="258.0" layoutY="2.0" mnemonicParsing="false" text="Log out" />
+            <Label fx:id="currentUserField" layoutX="14.0" layoutY="5.0" prefHeight="20.0" prefWidth="223.0" text="Current user:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Button layoutX="518.0" layoutY="240.0" mnemonicParsing="false" text="Delete item" />
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
