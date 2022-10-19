@@ -38,10 +38,11 @@ public class LogInSceneController {
         String password = passwordField.getText();
         try {
             java.sql.Statement statement = connection.createStatement();
-            String query = "SELECT username FROM users WHERE password='" + password + "' AND username='" + username
+            String query = "SELECT id FROM users WHERE password='" + password + "' AND username='" + username
                     + "';";
             ResultSet data = statement.executeQuery(query);
-            if (data.next()) {
+            if (data.next()) {                
+                ItemsSceneController.setCurrentUserId(data.getString("id"));
                 ItemsSceneController.setCurrentUser(username);
                 App.setRoot("ItemsScene");
                 

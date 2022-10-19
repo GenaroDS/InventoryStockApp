@@ -21,9 +21,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ItemsSceneController implements Initializable {
     private static String user;
+    private static String userId;
 
-    static void setCurrentUser(String currentUser1) {
-        user = currentUser1;
+    static void setCurrentUser(String userFrom) {
+        user = userFrom;
+    }
+    static void setCurrentUserId(String userIdFrom){
+        userId = userIdFrom;
     }
 
     @FXML
@@ -79,8 +83,9 @@ public class ItemsSceneController implements Initializable {
         itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
 
         Connection connection = SqlConection.usersConection();
-
-        String query = "SELECT * FROM items WHERE username='"+user+"';";
+        // CASTEAR TAMBIEN EL ID DE USUARIO, Y UTILIZARLO PARA FILTRART
+        String query = "SELECT * FROM items where user_id ='"+userId+"';";
+        System.out.println(userId);
         try {
             ResultSet rs = connection.createStatement().executeQuery(query);
             while (rs.next()) {
