@@ -19,7 +19,6 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class LogInSceneController {
-
     @FXML
     private Button logInButton;
 
@@ -43,15 +42,15 @@ public class LogInSceneController {
                     + "';";
             ResultSet data = statement.executeQuery(query);
             if (data.next()) {
+                ItemsSceneController.setCurrentUser(username);
                 App.setRoot("ItemsScene");
-
+                
             } else {
                 Scene scene = new Scene(loadFXML("IncorrectCredentials"));
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.setTitle("Credentials error");        
                 stage.show();
-                System.out.println("Incorrect credentials");
             }
         } catch (SQLException e) {
             e.printStackTrace();

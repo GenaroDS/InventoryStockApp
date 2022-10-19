@@ -13,8 +13,8 @@ import java.io.IOException;
  * JavaFX App
  */
 public class App extends Application {
-
     private static Scene scene;
+    private static String currentUser;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -29,6 +29,8 @@ public class App extends Application {
         scene.getWindow().sizeToScene();
         
     }
+
+
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
