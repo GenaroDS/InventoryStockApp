@@ -25,7 +25,7 @@ public class ItemsSceneController {
 
     @FXML
     private Button logOutButton;
-
+    
     @FXML
     private Button modifyItemButton;
 
@@ -49,7 +49,7 @@ public class ItemsSceneController {
     }
 
     @FXML
-    void logOutOnAction(ActionEvent event) throws IOException{
+    void logOutOnAction(ActionEvent event) throws IOException{        
         App.setRoot("LogInScene");
     }
 
