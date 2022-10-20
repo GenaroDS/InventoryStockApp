@@ -37,12 +37,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="91.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.IncorrectCredentialsController">
+<VBox prefHeight="91.0" prefWidth="292.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.PopUpController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefWidth="225.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="confirmButton" layoutX="94.0" layoutY="45.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" text="Confirm" />
-            <Label layoutX="46.0" layoutY="14.0" text="Your credentials are incorrect!" />
+            <Button fx:id="confirmButton" layoutX="116.0" layoutY="45.0" mnemonicParsing="false" onAction="#confirmButtonOnAction" text="Confirm" />
+            <Label fx:id="popUpLabel" layoutX="66.0" layoutY="14.0" text="Your credentials are incorrect!" />
       </children>
     </AnchorPane>
   </children>

@@ -2,13 +2,16 @@ package com.example;
 
 import java.io.IOException;
 import java.lang.ModuleLayer.Controller;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -47,11 +50,11 @@ public class LogInSceneController {
                 App.setRoot("ItemsScene");
                 
             } else {
-                Scene scene = new Scene(loadFXML("IncorrectCredentials"));
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Credentials error");        
-                stage.show();
+                Scene popUpScene = new Scene(loadFXML("PopUp"));
+                Stage popUpStage = new Stage();
+                popUpStage.setScene(popUpScene);
+                popUpStage.setTitle("Credentials error");        
+                popUpStage.show();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,8 +62,8 @@ public class LogInSceneController {
     }
 
     @FXML
-    void registerOnAction(ActionEvent event) {
-
+    void registerOnAction(ActionEvent event) throws IOException {
+        App.setRoot("SignUp");
     }
 
     static void setRoot(String fxml) throws IOException {

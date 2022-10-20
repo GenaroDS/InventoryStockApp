@@ -85,7 +85,7 @@ public class ItemsSceneController implements Initializable {
         Connection connection = SqlConection.usersConection();
         // CASTEAR TAMBIEN EL ID DE USUARIO, Y UTILIZARLO PARA FILTRART
         String query = "SELECT * FROM items where user_id ='"+userId+"';";
-        System.out.println(userId);
+        
         try {
             ResultSet rs = connection.createStatement().executeQuery(query);
             while (rs.next()) {
