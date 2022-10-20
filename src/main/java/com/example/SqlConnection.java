@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class SqlConection {
-    private SqlConection() {
+public class SqlConnection {
+    private SqlConnection() {
     }
 
     static Connection connection = null;

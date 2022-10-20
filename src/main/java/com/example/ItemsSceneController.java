@@ -26,7 +26,8 @@ public class ItemsSceneController implements Initializable {
     static void setCurrentUser(String userFrom) {
         user = userFrom;
     }
-    static void setCurrentUserId(String userIdFrom){
+
+    static void setCurrentUserId(String userIdFrom) {
         userId = userIdFrom;
     }
 
@@ -76,16 +77,14 @@ public class ItemsSceneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+  
         usernameLabel.setText(user);
         itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         itemPriceColumn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
         itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
-
-        Connection connection = SqlConection.usersConection();
-        // CASTEAR TAMBIEN EL ID DE USUARIO, Y UTILIZARLO PARA FILTRART
-        String query = "SELECT * FROM items where user_id ='"+userId+"';";
-        
+        Connection connection = SqlConnection.usersConection();
+        String query = "SELECT * FROM items where user_id ='" + userId + "';";
         try {
             ResultSet rs = connection.createStatement().executeQuery(query);
             while (rs.next()) {
@@ -96,11 +95,30 @@ public class ItemsSceneController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
     void addItemOnAction(ActionEvent event) {
+        Connection connection = SqlConnection.usersConection();
+        String itemName = newItemName.getText();
+        String itemQty = newItemQty.getText();
+        String itemPrice = newItemPrice.getText();
+        if (itemName.length() > 0 && itemQty.length() > 0 && itemPrice.length() > 0) {
+            String query = "INSERT INTO items (user_id,item_name,item_amount,item_price) VALUES('" + userId + "','" + itemName + "','" + itemQty + "','"
+                    + itemPrice + "');";
+            try {
+                java.sql.Statement statement = connection.createStatement();
+                statement.executeUpdate(query);
+                connection.close();
+                itemsTable.getItems().clear();
+                initialize(null, null);
+            } catch (SQLException e) {
+                System.out.println("error.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Please fill up all the fields");
+        }
 
     }
 

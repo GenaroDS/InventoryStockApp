@@ -40,7 +40,7 @@ public class SignUpController {
 
     @FXML
     void registerButtonOnAction(ActionEvent event) throws IOException {
-        Connection connection = SqlConection.usersConection();
+        Connection connection = SqlConnection.usersConection();
         String username = usernameField.getText();
         String password = passwordField.getText();
         String rePassword = repasswordField.getText();
