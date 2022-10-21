@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -145,13 +146,13 @@ public class ItemsSceneController implements Initializable {
         Connection connection = SqlConnection.usersConection();
         try {
             java.sql.Statement statement = connection.createStatement();
-            String query = "DELETE FROM items WHERE id='" + itemId +"';";
+            String query = "DELETE FROM items WHERE id='" + itemId + "';";
             statement.executeUpdate(query);
-            connection.close();  
-            initialize(null, null);          
+            connection.close();
+            initialize(null, null);
         } catch (SQLException e) {
             e.printStackTrace();
-        }       
+        }
     }
 
     @FXML
@@ -160,8 +161,29 @@ public class ItemsSceneController implements Initializable {
     }
 
     @FXML
-    void modifyItemOnAction(ActionEvent event) {
+    void modifyItemOnAction(ActionEvent event) throws IOException {
+        String itemName = itemsTable.getSelectionModel().getSelectedItem().getItemName();
+        String itemPrice = itemsTable.getSelectionModel().getSelectedItem().getItemPrice();
+        String itemQty = itemsTable.getSelectionModel().getSelectedItem().getItemQty();
+        ModifyItemController.setItemName(itemName);
+        ModifyItemController.setItemPrice(itemPrice);
+        ModifyItemController.setItemQuantity(itemQty);
+        Scene popUpScene = new Scene(loadFXML("ModifyItemScene"));
+        Stage popUpStage = new Stage();
+        popUpStage.setScene(popUpScene);
+        popUpStage.setTitle("Modify Item");
+        popUpStage.show();
+    }
 
+    static void setRoot(String fxml) throws IOException {
+        Scene scene = new Scene(null);
+        scene.setRoot(loadFXML(fxml));
+        scene.getWindow().sizeToScene();
+    }
+
+    private static Parent loadFXML(String fxml) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        return fxmlLoader.load();
     }
 
 }
