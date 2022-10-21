@@ -11,13 +11,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class ItemsSceneController implements Initializable {
     private static String user;
@@ -30,9 +34,6 @@ public class ItemsSceneController implements Initializable {
     static void setCurrentUserId(String userIdFrom) {
         userId = userIdFrom;
     }
-
-    @FXML
-    private Button addItemButton;
 
     @FXML
     private Label currentUserField;
@@ -71,13 +72,16 @@ public class ItemsSceneController implements Initializable {
     private TextField newItemQty;
 
     @FXML
+    private Button addItemButton;
+
+    @FXML
     private Label usernameLabel;
 
     ObservableList<ModelTable> oblist = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-  
+        itemsTable.getItems().clear();
         usernameLabel.setText(user);
         itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
         itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -98,23 +102,24 @@ public class ItemsSceneController implements Initializable {
     }
 
     @FXML
-    void addItemOnAction(ActionEvent event) {
+    void addItemOnAction(ActionEvent event) throws IOException {
         Connection connection = SqlConnection.usersConection();
         String itemName = newItemName.getText();
         String itemQty = newItemQty.getText();
         String itemPrice = newItemPrice.getText();
         if (itemName.length() > 0 && itemQty.length() > 0 && itemPrice.length() > 0) {
-            String query = "INSERT INTO items (user_id,item_name,item_amount,item_price) VALUES('" + userId + "','" + itemName + "','" + itemQty + "','"
+            String query = "INSERT INTO items (user_id,item_name,item_amount,item_price) VALUES('" + userId + "','"
+                    + itemName + "','" + itemQty + "','"
                     + itemPrice + "');";
             try {
                 java.sql.Statement statement = connection.createStatement();
                 statement.executeUpdate(query);
                 connection.close();
-                itemsTable.getItems().clear();
                 initialize(null, null);
+            } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+                itemUnderUsePopUp();
             } catch (SQLException e) {
-                System.out.println("error.");
-                e.printStackTrace();
+                e.getStackTrace();
             }
         } else {
             System.out.println("Please fill up all the fields");
@@ -122,8 +127,31 @@ public class ItemsSceneController implements Initializable {
 
     }
 
+    public void itemUnderUsePopUp() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane p = fxmlLoader.load(getClass().getResource("PopUp.fxml").openStream());
+        PopUpController popUpController = (PopUpController) fxmlLoader.getController();
+        Scene popUpScene = new Scene(p);
+        Stage popUpStage = new Stage();
+        popUpController.setLabel("    Item name is under use!");
+        popUpStage.setScene(popUpScene);
+        popUpStage.setTitle("Item name error");
+        popUpStage.show();
+    }
+
     @FXML
     void deleteItemOnAction(ActionEvent event) {
+        String itemId = itemsTable.getSelectionModel().getSelectedItem().getItemId();
+        Connection connection = SqlConnection.usersConection();
+        try {
+            java.sql.Statement statement = connection.createStatement();
+            String query = "DELETE FROM items WHERE id='" + itemId +"';";
+            statement.executeUpdate(query);
+            connection.close();  
+            initialize(null, null);          
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }       
     }
 
     @FXML

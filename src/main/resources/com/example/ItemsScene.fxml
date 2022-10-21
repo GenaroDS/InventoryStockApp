@@ -13,16 +13,7 @@
 <VBox prefHeight="269.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.ItemsSceneController">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="273.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
-      <children>
-            <Button fx:id="addItemButton" layoutX="102.0" layoutY="240.0" mnemonicParsing="false" onAction="#addItemOnAction" text="Add new item" />
-            <TableView fx:id="itemsTable" layoutX="320.0" layoutY="31.0" prefHeight="201.0" prefWidth="320.0" AnchorPane.rightAnchor="0.0">
-              <columns>
-                <TableColumn fx:id="itemIdColumn" prefWidth="49.5999755859375" text="Item Id" />
-                <TableColumn fx:id="itemNameColumn" prefWidth="103.199951171875" text="Item name" />
-                  <TableColumn fx:id="itemQuantityColumn" prefWidth="88.800048828125" text="Item quantity" />
-                  <TableColumn fx:id="itemPriceColumn" text="Item price" />
-              </columns>
-            </TableView>
+      <children>            
             <Label alignment="CENTER" layoutX="319.0" layoutY="-2.0" prefHeight="34.0" prefWidth="320.0" text="Items info">
                <font>
                   <Font size="21.0" />
@@ -46,21 +37,31 @@
             </Label>
             <TextField fx:id="newItemName" layoutX="144.0" layoutY="84.0" />
             <TextField fx:id="newItemQty" layoutX="144.0" layoutY="129.0" />
-            <Button fx:id="modifyItemButton" layoutX="370.0" layoutY="240.0" mnemonicParsing="false" onAction="#modifyItemOnAction" text="Modify item" />
+            <TextField fx:id="newItemPrice" layoutX="144.0" layoutY="173.0" />
+            <Button fx:id="addItemButton" layoutX="102.0" layoutY="240.0" mnemonicParsing="false" onAction="#addItemOnAction" text="Add new item" />            
+            <TableView fx:id="itemsTable" layoutX="320.0" layoutY="31.0" prefHeight="201.0" prefWidth="320.0" AnchorPane.rightAnchor="0.0">
+               <columns>
+                 <TableColumn fx:id="itemIdColumn" prefWidth="49.5999755859375" text="Item Id" />
+                 <TableColumn fx:id="itemNameColumn" prefWidth="103.199951171875" text="Item name" />
+                   <TableColumn fx:id="itemQuantityColumn" prefWidth="88.800048828125" text="Item quantity" />
+                   <TableColumn fx:id="itemPriceColumn" text="Item price" />
+               </columns>
+             </TableView>
+             <Button fx:id="modifyItemButton" layoutX="370.0" layoutY="240.0" mnemonicParsing="false" onAction="#modifyItemOnAction" text="Modify item" />
+             <Button fx:id="deleteItemButton" layoutX="518.0" layoutY="240.0" mnemonicParsing="false" onAction="#deleteItemOnAction" text="Delete item" />
             <Separator layoutX="-4.0" layoutY="30.0" prefHeight="3.0" prefWidth="640.0" />
             <Label layoutX="26.0" layoutY="169.0" prefHeight="34.0" prefWidth="114.0" text="Item price:">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
-            <TextField fx:id="newItemPrice" layoutX="144.0" layoutY="173.0" />
+            
             <Button fx:id="logOutButton" layoutX="258.0" layoutY="2.0" mnemonicParsing="false" onAction="#logOutOnAction" text="Log out" />
             <Label fx:id="currentUserField" layoutX="26.0" layoutY="5.0" prefHeight="20.0" prefWidth="81.0" text="Current user:">
                <font>
                   <Font size="14.0" />
                </font>
-            </Label>
-            <Button fx:id="deleteItemButton" layoutX="518.0" layoutY="240.0" mnemonicParsing="false" onAction="#deleteItemOnAction" text="Delete item" />
+            </Label>            
             <Label fx:id="usernameLabel" layoutX="116.0" layoutY="5.0" prefHeight="18.0" prefWidth="114.0">
                <font>
                   <Font size="14.0" />
