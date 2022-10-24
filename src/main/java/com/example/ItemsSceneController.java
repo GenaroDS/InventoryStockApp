@@ -55,7 +55,7 @@ public class ItemsSceneController implements Initializable {
     private TableColumn<ModelTable, String> itemQuantityColumn;
 
     @FXML
-    private TableView<ModelTable> itemsTable;
+    public TableView<ModelTable> itemsTable;
 
     @FXML
     private Button logOutButton;
@@ -82,24 +82,7 @@ public class ItemsSceneController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        itemsTable.getItems().clear();
-        usernameLabel.setText(user);
-        itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
-        itemPriceColumn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
-        itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
-        Connection connection = SqlConnection.usersConection();
-        String query = "SELECT * FROM items where user_id ='" + userId + "';";
-        try {
-            ResultSet rs = connection.createStatement().executeQuery(query);
-            while (rs.next()) {
-                oblist.add(new ModelTable(rs.getString("id"), rs.getString("item_name"), rs.getString("item_amount"),
-                        rs.getString("item_price")));
-            }
-            itemsTable.setItems(oblist);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        refreshTable();
     }
 
     @FXML
@@ -117,12 +100,16 @@ public class ItemsSceneController implements Initializable {
                 statement.executeUpdate(query);
                 connection.close();
                 initialize(null, null);
+                newItemName.clear();
+                newItemQty.clear();
+                newItemPrice.clear();
             } catch (java.sql.SQLIntegrityConstraintViolationException e) {
                 itemUnderUsePopUp();
             } catch (SQLException e) {
                 e.getStackTrace();
             }
         } else {
+            fillFieldsPopUp();
             System.out.println("Please fill up all the fields");
         }
 
@@ -137,6 +124,18 @@ public class ItemsSceneController implements Initializable {
         popUpController.setLabel("    Item name is under use!");
         popUpStage.setScene(popUpScene);
         popUpStage.setTitle("Item name error");
+        popUpStage.show();
+    }
+
+    public void fillFieldsPopUp() throws IOException{
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane p = fxmlLoader.load(getClass().getResource("PopUp.fxml").openStream());
+        PopUpController popUpController = (PopUpController) fxmlLoader.getController();
+        Scene popUpScene = new Scene(p);
+        Stage popUpStage = new Stage();
+        popUpController.setLabel("    Please fill all the fields");
+        popUpStage.setScene(popUpScene);
+        popUpStage.setTitle("Field empty");
         popUpStage.show();
     }
 
@@ -158,21 +157,26 @@ public class ItemsSceneController implements Initializable {
     @FXML
     void logOutOnAction(ActionEvent event) throws IOException {
         App.setRoot("LogInScene");
+        
     }
 
     @FXML
     void modifyItemOnAction(ActionEvent event) throws IOException {
-        String itemName = itemsTable.getSelectionModel().getSelectedItem().getItemName();
-        String itemPrice = itemsTable.getSelectionModel().getSelectedItem().getItemPrice();
-        String itemQty = itemsTable.getSelectionModel().getSelectedItem().getItemQty();
-        ModifyItemController.setItemName(itemName);
-        ModifyItemController.setItemPrice(itemPrice);
-        ModifyItemController.setItemQuantity(itemQty);
-        Scene popUpScene = new Scene(loadFXML("ModifyItemScene"));
-        Stage popUpStage = new Stage();
-        popUpStage.setScene(popUpScene);
-        popUpStage.setTitle("Modify Item");
-        popUpStage.show();
+        try {
+            String itemName = itemsTable.getSelectionModel().getSelectedItem().getItemName();
+            String itemPrice = itemsTable.getSelectionModel().getSelectedItem().getItemPrice();
+            String itemQty = itemsTable.getSelectionModel().getSelectedItem().getItemQty();
+            String itemId = itemsTable.getSelectionModel().getSelectedItem().getItemId();
+            ModifyItemController.setItemName(itemName);
+            ModifyItemController.setItemPrice(itemPrice);
+            ModifyItemController.setItemQuantity(itemQty);
+            ModifyItemController.setItemId(itemId);
+            App.setRoot("ModifyItemScene");           
+
+        } catch (java.lang.NullPointerException e) {
+            noItemPopUp();
+        }
+
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -184,6 +188,39 @@ public class ItemsSceneController implements Initializable {
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
+    }
+
+    private void noItemPopUp() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Pane p = fxmlLoader.load(getClass().getResource("PopUp.fxml").openStream());
+        PopUpController popUpController = (PopUpController) fxmlLoader.getController();
+        Scene popUpScene = new Scene(p);
+        Stage popUpStage = new Stage();
+        popUpController.setLabel("Please, select the item to modify!");
+        popUpStage.setScene(popUpScene);
+        popUpStage.setTitle("No item selected");
+        popUpStage.show();
+    }
+
+    public void refreshTable(){
+        itemsTable.getItems().clear();
+        usernameLabel.setText(user);
+        itemIdColumn.setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        itemNameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+        itemPriceColumn.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+        itemQuantityColumn.setCellValueFactory(new PropertyValueFactory<>("itemQty"));
+        Connection connection = SqlConnection.usersConection();
+        String query = "SELECT * FROM items where user_id ='" + userId + "';";
+        try {
+            ResultSet rs = connection.createStatement().executeQuery(query);
+            while (rs.next()) {
+                oblist.add(new ModelTable(rs.getString("id"), rs.getString("item_name"), rs.getString("item_amount"),
+                        rs.getString("item_price")));
+            }
+            itemsTable.setItems(oblist);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

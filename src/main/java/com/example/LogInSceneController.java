@@ -22,6 +22,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 public class LogInSceneController {
+
     @FXML
     private Button logInButton;
 
@@ -44,17 +45,18 @@ public class LogInSceneController {
             String query = "SELECT id FROM users WHERE password='" + password + "' AND username='" + username
                     + "';";
             ResultSet data = statement.executeQuery(query);
-            if (data.next()) {                
+            if (data.next()) {
                 ItemsSceneController.setCurrentUserId(data.getString("id"));
                 ItemsSceneController.setCurrentUser(username);
                 App.setRoot("ItemsScene");
-                
+
             } else {
                 Scene popUpScene = new Scene(loadFXML("PopUp"));
                 Stage popUpStage = new Stage();
                 popUpStage.setScene(popUpScene);
-                popUpStage.setTitle("Credentials error");        
+                popUpStage.setTitle("Credentials error");
                 popUpStage.show();
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,11 +72,12 @@ public class LogInSceneController {
         Scene scene = new Scene(null);
         scene.setRoot(loadFXML(fxml));
         scene.getWindow().sizeToScene();
-        
+
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        
         return fxmlLoader.load();
     }
 

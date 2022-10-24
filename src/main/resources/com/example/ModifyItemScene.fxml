@@ -16,7 +16,7 @@
       </Label>
       <TextField fx:id="itemNameField" layoutX="61.0" layoutY="68.0" />
       <TextField fx:id="itemQuantityField" layoutX="61.0" layoutY="131.0" />
-      <TextField fx:id="itemPriceField" layoutX="56.0" layoutY="188.0" />
+      <TextField fx:id="itemPriceField" layoutX="61.0" layoutY="188.0" />
       <Label alignment="CENTER" layoutX="91.0" layoutY="107.0" style="&#10;" text="Item quantity:" textAlignment="CENTER" wrapText="false">
          <font>
             <Font size="15.0" />
